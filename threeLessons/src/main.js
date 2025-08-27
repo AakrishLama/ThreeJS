@@ -1,12 +1,19 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
+
 // initialize scene
 const scene = new THREE.Scene();
 
 // create cube
 const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
-const cubeMaterial  = new THREE.MeshBasicMaterial({color: "red", wireframe: true});
+const cubeMaterial  = new THREE.MeshBasicMaterial({color: 0x00ff00, wireframe: true});
+
+// fog or disappear when zoom out.
+const fog = new THREE.Fog("black", 5, 20)
+scene.fog = fog
+scene.background = new THREE.Color("black")
+
 
 const cube = new THREE.Mesh(
     cubeGeometry, cubeMaterial
