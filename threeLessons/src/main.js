@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
+// initialize the texture loader
+const textureLoader = new THREE.TextureLoader();
 
 // initialize scene
 const scene = new THREE.Scene();
@@ -8,6 +10,7 @@ const scene = new THREE.Scene();
 // create cube
 const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
 const cubeMaterial  = new THREE.MeshBasicMaterial({color: 0x00ff00, wireframe: true});
+
 
 // fog or disappear when zoom out.
 const fog = new THREE.Fog("black", 5, 20)
@@ -19,7 +22,21 @@ const cube = new THREE.Mesh(
     cubeGeometry, cubeMaterial
 );
 
+// intialize the texture
+const textureTest = textureLoader.load("../chiseled-cobble-unity/chiseled-cobble_preview.jpg");
+
+// create circle
+const circle = new THREE.Mesh();
+circle.geometry = new THREE.SphereGeometry(0.5, 28, 35)
+circle.material = new THREE.MeshBasicMaterial({color: "lightblue", wireframe: false});
+circle.material.map= textureTest;
+
+circle.position.x = 2; // Position it next to the cube
+
+
+
 scene.add(cube);
+scene.add(circle);
 
 // camera
 console.log(window.innerHeight, window.innerWidth);
