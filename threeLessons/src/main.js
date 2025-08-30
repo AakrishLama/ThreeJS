@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 // import earth from earth.js.
-import earth from "./earth.js";
+import planetMeshes from "./planets.js";
 
 // initializing scene
 const scene = new THREE.Scene();
@@ -14,8 +14,11 @@ sun.scale.set(1,1,1);
 // adding sun to scene
 scene.add(sun);
 
-// adding earth to scene as child of sun from earth.js.
-sun.add(earth);
+// adding the planets to sun.
+planetMeshes.forEach((mesh)=>{
+    sun.add(mesh);
+})
+
 
 // camera
 const camera = new THREE.PerspectiveCamera(
@@ -55,10 +58,18 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(window.innerWidth, window.innerHeight);
 
+// handling resize for window
+window.addEventListener("resize", ()=>{
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+})
 // animate for orbit control to function.
 const animate = ()=>{
     sun.rotation.y += 0.005;
-    earth.rotation.y += 0.01;
+    planetMeshes.forEach((mesh)=>{
+        mesh.rotation.y += 0.005;
+    })
     renderer.render(scene, camera);
     controls.update();
     requestAnimationFrame(animate);
